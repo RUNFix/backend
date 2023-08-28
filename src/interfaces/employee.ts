@@ -6,6 +6,5 @@ export interface Employee{
     email:string;
     phone:number;
 
-    //password:string;
-    //idProccess:number;
+  
 }
