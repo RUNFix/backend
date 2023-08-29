@@ -18,8 +18,5 @@ RUNfix es un software diseñado para facilitar la gestión y seguimiento de oper
 
 La motivación detrás de RUNfix surge de la necesidad de mejorar la transparencia y eficiencia en el proceso de reparación de vehículos, evitando así malas experiencias tanto para el cliente como para los empleados del taller.
 
-## ¿Por qué usar RUNfix?
-
-Si eres el dueño de un taller y buscas una forma de optimizar las operaciones y mejorar la satisfacción del cliente, RUNfix es la solución que necesitas.
 
 
