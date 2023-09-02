@@ -5,6 +5,6 @@ export interface Employee{
     position:string;
     email:string;
     phone:number;
-
   
 }
+
