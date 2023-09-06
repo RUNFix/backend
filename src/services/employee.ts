@@ -14,18 +14,18 @@ const getEmpls = async ()=> {
 
 }
 
-const getEmpl = async (id:String)=> {
-    const responseEmployee = await employeeModel.findOne({_id:id});
+const getEmpl = async (cc:string)=> {
+    const responseEmployee = await employeeModel.findOne({cc:cc});
     return responseEmployee;
 }
 
-const updateEmpl =  async(id:String, data:Employee)=>{
-    const responseEmployee = await employeeModel.findOneAndUpdate({_id:id}, data, {new:true,});
+const updateEmpl =  async(cc:string, data:Employee)=>{
+    const responseEmployee = await employeeModel.findOneAndUpdate({cc:cc}, data, {new:true,});
     return responseEmployee;
 }
 
-const deleteEmpl = async (id:String)=> {
-    const responseEmployee = await employeeModel.deleteOne({_id:id});
+const deleteEmpl = async (cc:string)=> {
+    const responseEmployee = await employeeModel.deleteOne({cc:cc});
     return responseEmployee;
 }
 export { insertEmpl, getEmpls, getEmpl, updateEmpl, deleteEmpl};
