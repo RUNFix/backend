@@ -1,6 +1,7 @@
-export interface Employee{
+import { Auth } from "./auth";
+
+export interface Employee extends Auth{
     fullName: string;
-    cc:number;
     age:number;
     position:string;
     email:string;
