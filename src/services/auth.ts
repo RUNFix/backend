@@ -1,14 +1,32 @@
 import { Auth } from "../interfaces/auth";
 import { Employee } from "../interfaces/employee";
 import employeeModel from "../models/employee";
+import { encrypt, verified } from "../utils/bcrypt.handle";
 
 const registerNewUser = async ({cc, password, fullName, age, position, email, phone}: Employee) => {
     const checkIs = await employeeModel.findOne({cc});
     if(checkIs) return "ALREADY_USER";
-    const registerNewUser = await employeeModel.create({cc, password, fullName, age, position, email, phone })
+    const passHash = await encrypt(password);
+    const registerNewUser = await employeeModel.create({
+        cc, 
+        password: passHash,
+        fullName, 
+        age, 
+        position, 
+        email, 
+        phone })
     return registerNewUser;
 };
     
-const loginUser = async () => {};
+const loginUser = async ({cc, password}: Auth) => {
+    const checkIs = await employeeModel.findOne({cc});
+    if(!checkIs) return "NOT_FOUND_USER";
+
+    const passHash = checkIs.password;
+    const isCorrect = await verified(password, passHash);
+
+    if(!isCorrect) return "PASSWORD_INCORRECT";
+    return checkIs
+};
 
 export {registerNewUser, loginUser}
