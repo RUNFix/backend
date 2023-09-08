@@ -2,6 +2,7 @@ import { Auth } from "../interfaces/auth";
 import { Employee } from "../interfaces/employee";
 import employeeModel from "../models/employee";
 import { encrypt, verified } from "../utils/bcrypt.handle";
+import { generateToken } from "../utils/jwt.handle";
 
 const registerNewUser = async ({cc, password, fullName, age, position, email, phone}: Employee) => {
     const checkIs = await employeeModel.findOne({cc});
@@ -26,7 +27,11 @@ const loginUser = async ({cc, password}: Auth) => {
     const isCorrect = await verified(password, passHash);
 
     if(!isCorrect) return "PASSWORD_INCORRECT";
-    return checkIs
+
+    const token = await generateToken(cc);
+    const data ={token,user:checkIs};
+
+    return data
 };
 
 export {registerNewUser, loginUser}

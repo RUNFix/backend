@@ -8,6 +8,10 @@ const registerCtrl = async({body}: Request, res: Response) => {
 const loginCtrl = async({body}: Request, res:Response) => {
     const {cc, password} = body;
     const responseUser = await loginUser({cc, password})
+
+    if (responseUser === "PASSWORD_INCORRECT") {
+        res.status(403);
+    }
     res.send(responseUser)
 };
 
