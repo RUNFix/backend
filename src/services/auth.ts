@@ -33,5 +33,16 @@ const loginUser = async ({cc, password}: Auth) => {
 
     return data
 };
+ 
+const updatePassword = async (cc:string, password:Auth) => {
 
-export {registerNewUser, loginUser}
+    // Actualizar la contraseña
+    const newPassHash = await encrypt(password.password);
+    const responsePassword = await employeeModel.findOneAndUpdate({cc:cc}, {password:newPassHash}, {new:true,});
+    console.log("Password updated successfully");
+    return responsePassword;
+
+     
+}
+
+export {registerNewUser, loginUser, updatePassword}
