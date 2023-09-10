@@ -36,7 +36,14 @@ const loginUser = async ({cc, password}: Auth) => {
  
 const updatePassword = async (cc:string, password:Auth) => {
 
+    const checkIs = await employeeModel.findOne({cc});
+    if(!checkIs) return "NOT_FOUND_USER";
+
     // Actualizar la contraseña
+    const isCorrect = await verified(password.password, checkIs.password);
+    if(isCorrect) return "IS NOT POSIBLE TO OVERRIDE THE PASSWORD WITH THE SAME PASSWORD";
+
+
     const newPassHash = await encrypt(password.password);
     const responsePassword = await employeeModel.findOneAndUpdate({cc:cc}, {password:newPassHash}, {new:true,});
     console.log("Password updated successfully");
