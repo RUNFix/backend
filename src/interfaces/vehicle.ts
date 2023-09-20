@@ -6,18 +6,19 @@ interface Part {
 }
 
 
-export interface vehicle {
-    Name: string;
+export interface Vehicle {
+    id: Number;
+    name: string;
     cc: number;
-    Model: string;
-    Brand: string;
-    Year: number;
-    Color: string;
-    Status: string;
-    PriceToPay: number;
-    Employee: string;
-    Parts: Part[];
-    Date: Date;
+    model: string;
+    brand: string;
+    year: number;
+    color: string;
+    status: string;
+    priceToPay: number;
+    employee: string;
+    parts: Part[];
+    date: Date;
     images:string;
 
 
