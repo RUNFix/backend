@@ -5,8 +5,13 @@ import { encrypt, verified } from "../utils/bcrypt.handle";
 import { generateToken } from "../utils/jwt.handle";
 
 const registerNewUser = async ({cc, password, fullName, age, position, email, phone}: Employee) => {
-    const checkIs = await employeeModel.findOne({cc});
-    if(checkIs) return "ALREADY_USER";
+    const checkCC = await employeeModel.findOne({cc});
+    if(checkCC) return "ALREADY_USER";
+    const checkEmail = await employeeModel.findOne({email});
+    if(checkEmail) return "ALREADY_EMAIL";
+    const checkPhone = await employeeModel.findOne({phone});
+    if(checkPhone) return "ALREADY_PHONE";
+
     const passHash = await encrypt(password);
     const registerNewUser = await employeeModel.create({
         cc, 
