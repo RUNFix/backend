@@ -29,7 +29,7 @@ const loginUser = async ({cc, password}: Auth) => {
     if(!isCorrect) return "PASSWORD_INCORRECT";
 
     const token = await generateToken(cc);
-    const data ={token,user:checkIs};
+    const data ={token:token,user:checkIs};
 
     return data
 };

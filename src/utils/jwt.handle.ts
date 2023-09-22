@@ -1,16 +1,16 @@
 import {sign, verify} from "jsonwebtoken";
-const JWT_SECRET=process.env.JWT_SECRET || 'token.010101';
+const ACCESS_TOKEN_SECRET=process.env.ACCESS_TOKEN_SECRET || 'token.010101';
 
 const generateToken = async (cc:number)=>{
-    const jwt = sign({cc},JWT_SECRET,{
-        expiresIn: "8h",
-    });
+    const jwt = sign({cc},ACCESS_TOKEN_SECRET, {
+        expiresIn: '2 days'
+      });
     return jwt;
  
 }
 
 const verifyToken = async (jwt:string)=>{
-    const isOk = verify(jwt, JWT_SECRET);
+    const isOk = verify(jwt, ACCESS_TOKEN_SECRET);
     return isOk;
 
 }
