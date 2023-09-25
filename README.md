@@ -1,8 +1,8 @@
-# RUNfIX: Software de Gestión para Taller Automotriz
+# RUNFIX: Software de Gestión para Taller Automotriz
 
 ## Descripción del Proyecto
 
-RUNfix es un software diseñado para facilitar la gestión y seguimiento de operaciones en un taller automotriz. Este sistema no solo agiliza el trabajo de los mecánicos sino que también mejora la comunicación entre el taller y los dueños de los vehículos.
+RUNFIX es un software diseñado para facilitar la gestión y seguimiento de operaciones en un taller automotriz. Este sistema no solo agiliza el trabajo de los mecánicos sino que también mejora la comunicación entre el taller y los dueños de los vehículos.
 
 ## Características Principales
 
@@ -16,7 +16,7 @@ RUNfix es un software diseñado para facilitar la gestión y seguimiento de oper
 
 ## Motivación
 
-La motivación detrás de RUNfIX surge de la necesidad de mejorar la transparencia y eficiencia en el proceso de reparación de vehículos, evitando así malas experiencias tanto para el cliente como para los empleados del taller.
+La motivación detrás de RUNFIX surge de la necesidad de mejorar la transparencia y eficiencia en el proceso de reparación de vehículos, evitando así malas experiencias tanto para el cliente como para los empleados del taller.
 
 
 
