@@ -2,7 +2,7 @@ import { Auth } from "../interfaces/auth";
 import { Employee } from "../interfaces/employee";
 import employeeModel from "../models/employee";
 import { encrypt, verified } from "../utils/bcrypt.handle";
-import { generateToken } from "../utils/jwt.handle";
+import { generateToken,generateRefreshToken,verifyRefreshToken,verifyToken } from "../utils/jwt.handle";
 
 const registerNewUser = async ({cc, password, fullName, age, position, email, phone}: Employee) => {
     const checkCC = await employeeModel.findOne({cc});
@@ -34,9 +34,24 @@ const loginUser = async ({cc, password}: Auth) => {
     if(!isCorrect) return "PASSWORD_INCORRECT";
 
     const token = await generateToken(cc);
-    const data ={token,user:checkIs};
+    const refreshToken = await generateRefreshToken(cc);
+    const data ={token,refreshToken,user:checkIs};
 
     return data
+};
+
+const refreshAccessToken = async (refreshToken: string) => {
+    try {
+        const decoded: any = await verifyRefreshToken(refreshToken);
+        const user = await employeeModel.findOne({cc: decoded.cc});
+        
+        if (!user) return "NOT_FOUND_USER";
+
+        const newAccessToken = await generateToken(user.cc);
+        return { token: newAccessToken };
+    } catch (error) {
+        return "INVALID_REFRESH_TOKEN";
+    }
 };
  
 const updatePassword = async (cc:string, password:Auth) => {
@@ -57,4 +72,4 @@ const updatePassword = async (cc:string, password:Auth) => {
      
 }
 
-export {registerNewUser, loginUser, updatePassword}
+export {registerNewUser, loginUser, updatePassword, refreshAccessToken}

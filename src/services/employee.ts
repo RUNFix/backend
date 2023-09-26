@@ -28,4 +28,5 @@ const deleteEmpl = async (cc:string)=> {
     const responseEmployee = await employeeModel.deleteOne({cc:cc});
     return responseEmployee;
 }
+
 export { insertEmpl, getEmpls, getEmpl, updateEmpl, deleteEmpl};

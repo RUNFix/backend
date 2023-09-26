@@ -37,6 +37,7 @@ const postEmployee=async ({body}:Request, res:Response)=>{
         const response= await insertEmpl(body);
         res.send(response)
     }catch(e){
+        console.error("Error al insertar empleado:", e);
         handleHttp(res, 'ERROR_POST_ITEM');
     }
 }
