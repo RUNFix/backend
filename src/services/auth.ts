@@ -2,7 +2,8 @@ import { Auth } from "../interfaces/auth";
 import { Employee } from "../interfaces/employee";
 import employeeModel from "../models/employee";
 import { encrypt, verified } from "../utils/bcrypt.handle";
-import { generateToken } from "../utils/jwt.handle";
+import { generateRefreshToken, generateToken, verifyRefreshToken } from "../utils/jwt.handle";
+import cookie from 'cookie';
 
 const registerNewUser = async ({cc, password, fullName, age, position, email, phone}: Employee) => {
     const checkIs = await employeeModel.findOne({cc});
@@ -28,10 +29,48 @@ const loginUser = async ({cc, password}: Auth) => {
 
     if(!isCorrect) return "PASSWORD_INCORRECT";
 
-    const token = await generateToken(cc);
-    const data ={token:token,user:checkIs};
+    const role = checkIs.position;
+    const token = await generateToken({cc,role});
+    const refreshToken = await generateRefreshToken({cc,role});
+    const data ={token,refreshToken,user:checkIs};
 
     return data
+
 };
 
-export {registerNewUser, loginUser}
+const refreshAccessToken = async (refreshToken: string) => {
+    try {
+
+        const decoded: any = await verifyRefreshToken(refreshToken);
+        console.log(typeof decoded);
+        // Expected output: "number"
+        const user = await employeeModel.findOne({cc: decoded.cc});
+        
+        if (!user) return "NOT_FOUND_USER";
+
+        const newAccessToken = await generateToken(decoded);
+        return { token: newAccessToken };
+    } catch (error) {
+        return "INVALID_REFRESH_TOKEN";
+    }
+};
+ 
+const updatePassword = async (cc:string, password:Auth) => {
+
+    const checkIs = await employeeModel.findOne({cc});
+    if(!checkIs) return "NOT_FOUND_USER";
+
+    // Actualizar la contraseña
+    const isCorrect = await verified(password.password, checkIs.password);
+    if(isCorrect) return "IS NOT POSIBLE TO OVERRIDE THE PASSWORD WITH THE SAME PASSWORD";
+
+
+    const newPassHash = await encrypt(password.password);
+    const responsePassword = await employeeModel.findOneAndUpdate({cc:cc}, {password:newPassHash}, {new:true,});
+    console.log("Password updated successfully");
+    return responsePassword;
+
+     
+}
+
+export {registerNewUser, loginUser, updatePassword, refreshAccessToken}
