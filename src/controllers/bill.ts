@@ -1,6 +1,6 @@
 import { Request, Response, response } from "express"
 import { handleHttp } from "../utils/error.handle"
-import { insertBill, getUserBills , getCarBills, getBills} from "../services/bill"
+import { insertBill, getUserBills , getCarBills, getBills, updateBill, deleteBill} from "../services/bill"
 
 //If param is a cc, then search by user, if it is a plate, search by car
 const getBillsByParam = async ({params}:Request, res: Response) => {
@@ -9,8 +9,6 @@ const getBillsByParam = async ({params}:Request, res: Response) => {
         
         //console.log(param)
         if(Number.isNaN(Number(param))){//if param is a plate
-            console.log("SI LLEGA ACA!!!!!")
-            console.log(typeof(param))
             const responseGet= await getCarBills(param);
                 
             if(responseGet.length){
@@ -37,9 +35,11 @@ const getBillsController = async (req:Request, res: Response)=> {
     }
 }
 
-const updateBill = (req:Request, res: Response)=> {
+const updateBillController = async ({params, body}:Request, res: Response)=> {
     try{
-
+        const {id} = params;
+        const responseUpdate = await updateBill(id,body);
+        res.send(responseUpdate);
     }catch (e){
         handleHttp(response,'ERROR_UPDATE_BILL')
     }
@@ -54,13 +54,17 @@ const postBill = async ({body}:Request, res: Response)=> {
     }
 }
 
-const deleteBill = (req:Request, res: Response)=> {
+const deleteBillController = async ({params}:Request, res: Response)=> {
     try{
-
+        const {id}=params;
+        const responseDelete = await deleteBill(id);
+        if(responseDelete){
+            res.send("SUCCESSFULLY_DELETED");
+        }else{res.send("BILL_NOT_FOUND");}
     }catch (e){
         handleHttp(response,'ERROR_DELETE_BILL')
     }
 }
 
 
-export { updateBill, postBill, deleteBill, getBillsController,getBillsByParam};
+export { updateBill, postBill, deleteBill, getBillsController,getBillsByParam, updateBillController,deleteBillController};

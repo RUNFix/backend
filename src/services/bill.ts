@@ -23,4 +23,13 @@ const getCarBills = async (plate:string) => {
     return responseGet;
 }
 
-export {insertBill, getUserBills, getCarBills,getBills}
+const updateBill = async (id:string, data:Bill) => {
+    const responseUpdate = await BillModel.findOneAndUpdate({_id:id},data,{new:true});
+    return responseUpdate;
+}
+
+const deleteBill = async (id:string) => {
+    const responseDelete = await BillModel.findOneAndDelete({_id:id});
+    return responseDelete;
+}
+export {insertBill, getUserBills, getCarBills,getBills, updateBill, deleteBill}
