@@ -19,6 +19,10 @@ const ItemSchema = new Schema<Vehicle>(
       type: String,
       required: true,
     },
+    plate:{
+      type:String,
+      required: true,
+    },
     cc: {
       type: Number,
       required: true,

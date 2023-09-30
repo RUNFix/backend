@@ -7,6 +7,7 @@ interface Part {
 
 export interface Vehicle {
   id: Number;
+  plate: string;
   name: string;
   cc: number;
   model: string;
