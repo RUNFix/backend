@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt, { Secret, JwtPayload, verify } from 'jsonwebtoken';
 import { refreshAccessToken } from '../services/auth';
-import { verifyToken } from '../utils/jwt.handle';
 import 'express-session';
 
 declare module 'express-session' {
@@ -29,12 +28,16 @@ const authMiddleware = async (req: Request, res: Response, next: NextFunction) =
     next();
   } catch (err: any) {
     if (err.name === 'TokenExpiredError') {
-      const refreshToken = req.session.refreshToken;
+      const refreshToken = req.cookies.jwt;
+      console.log('pasé')
+      console.log('Refresh:' ,req.cookies.jwt)
+      console.log(refreshToken)
       if (!refreshToken) {
         return res.status(401).send({ message: 'No refresh token provided' });
       }
-
+      console.log('pasé 2')
       const newToken = await refreshAccessToken(refreshToken);
+      console.log(newToken)
       if (newToken === 'INVALID_REFRESH_TOKEN') {
         return res.status(401).send({ message: 'Invalid refresh token' });
       }
@@ -43,7 +46,9 @@ const authMiddleware = async (req: Request, res: Response, next: NextFunction) =
       console.log('New Refresh Token:', refreshToken); // Log the new refresh token
 
       res.setHeader('Authorization', `Bearer ${newToken}`);
-      res.cookie('refreshToken', refreshToken, { httpOnly: true });
+      res.cookie('jwt', newToken, { httpOnly: true, 
+        sameSite: 'none', secure: true, 
+        maxAge: 24 * 60 * 60 * 1000 });
       next();
     } else {
       return res.status(401).send({ message: 'Invalid token' });

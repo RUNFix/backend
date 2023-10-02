@@ -25,6 +25,7 @@ const verifyToken = async (jwt:string)=>{
 
 const verifyRefreshToken = async (jwt: string) => {
     const isOk = verify(jwt, REFRESH_TOKEN_SECRET);
+    console.log(isOk)
     return isOk;
 }
 

@@ -43,14 +43,16 @@ const refreshAccessToken = async (refreshToken: string) => {
 
         const decoded: any = await verifyRefreshToken(refreshToken);
         console.log(typeof decoded);
-        // Expected output: "number"
-        const user = await employeeModel.findOne({cc: decoded.cc});
+        console.log(decoded)
+
+        const user = await employeeModel.findOne({cc: decoded.data.cc});
         
         if (!user) return "NOT_FOUND_USER";
 
         const newAccessToken = await generateToken(decoded);
         return { token: newAccessToken };
     } catch (error) {
+        console.log(error)
         return "INVALID_REFRESH_TOKEN";
     }
 };
