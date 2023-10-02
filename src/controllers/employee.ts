@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express"
 import { handleHttp } from "../utils/error.handle"
-import { insertEmpl, getEmpls, getEmpl, updateEmpl, deleteEmpl} from "../services/employee";
+import { getEmpls, getEmpl, updateEmpl, deleteEmpl} from "../services/employee";
 
 const getEmployee=async({params}:Request, res:Response)=>{
     try{
@@ -31,7 +31,7 @@ const updateEmployee= async({params, body}:Request, res:Response)=>{
         handleHttp(res, 'ERROR_UPDATE_ITEM');
     }
 }
-
+/*
 const postEmployee=async ({body}:Request, res:Response)=>{
     try{
         const response= await insertEmpl(body);
@@ -41,7 +41,7 @@ const postEmployee=async ({body}:Request, res:Response)=>{
         handleHttp(res, 'ERROR_POST_ITEM');
     }
 }
-
+*/
 const deleteEmployee= async({params}:Request, res:Response, next: NextFunction)=>{
     try{
         const {id} = params;
@@ -52,5 +52,5 @@ const deleteEmployee= async({params}:Request, res:Response, next: NextFunction)=
     }
 }
 
-export{getEmployee, getEmployees, updateEmployee, postEmployee, deleteEmployee};
+export{getEmployee, getEmployees, updateEmployee, deleteEmployee};
 

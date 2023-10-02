@@ -2,12 +2,12 @@ import { Employee } from "../interfaces/employee";
 import employeeModel from "../models/employee";
 
 
-
+/*
 const insertEmpl= async (employee: Employee) => {
     const responseInsert = await employeeModel.create(employee);
     return responseInsert;
 };
-
+*/
 const getEmpls = async ()=> {
     const responseEmployee = await employeeModel.find({})
     return responseEmployee;
@@ -29,4 +29,4 @@ const deleteEmpl = async (cc:string)=> {
     return responseEmployee;
 }
 
-export { insertEmpl, getEmpls, getEmpl, updateEmpl, deleteEmpl};
+export { getEmpls, getEmpl, updateEmpl, deleteEmpl};
