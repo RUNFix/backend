@@ -28,28 +28,7 @@ const authMiddleware = async (req: Request, res: Response, next: NextFunction) =
     next();
   } catch (err: any) {
     if (err.name === 'TokenExpiredError') {
-      const refreshToken = req.cookies.jwt;
-      console.log('pasé')
-      console.log('Refresh:' ,req.cookies.jwt)
-      console.log(refreshToken)
-      if (!refreshToken) {
-        return res.status(401).send({ message: 'No refresh token provided' });
-      }
-      console.log('pasé 2')
-      const newToken = await refreshAccessToken(refreshToken);
-      console.log(newToken)
-      if (newToken === 'INVALID_REFRESH_TOKEN') {
         return res.status(401).send({ message: 'Invalid refresh token' });
-      }
-
-      console.log('New Access Token:', newToken); // Log the new access token
-      console.log('New Refresh Token:', refreshToken); // Log the new refresh token
-
-      res.setHeader('Authorization', `Bearer ${newToken}`);
-      res.cookie('jwt', newToken, { httpOnly: true, 
-        sameSite: 'none', secure: true, 
-        maxAge: 24 * 60 * 60 * 1000 });
-      next();
     } else {
       return res.status(401).send({ message: 'Invalid token' });
     }
