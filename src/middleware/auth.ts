@@ -16,9 +16,14 @@ export interface CustomRequest extends Request {
 }
 
 const authMiddleware = async (req: Request, res: Response, next: NextFunction) => {
-  debugger
-  const token = req.headers.authorization!.split(' ')[1];
-  console.log("Hola",token);
+  const bearerToken = req.headers.authorization;
+
+  if (!bearerToken) {
+    return res.status(401).send({ message: 'No authorization header provided' });
+  }
+
+  const token = bearerToken.split(' ')[1];
+
   if (!token) {
     return res.status(401).send({ message: 'No authorization header provided' });
   }
@@ -29,8 +34,8 @@ const authMiddleware = async (req: Request, res: Response, next: NextFunction) =
     next();
   } catch (err: any) {
     if (err.name === 'TokenExpiredError') {
-      console.log("pasé")
-        return res.status(401).send({ message: 'Invalid refresh token' });
+      console.log('pasé');
+      return res.status(401).send({ message: 'Invalid refresh token' });
     } else {
       return res.status(401).send({ message: 'Invalid token' });
     }
