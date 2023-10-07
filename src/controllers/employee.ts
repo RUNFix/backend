@@ -13,6 +13,7 @@ const getEmployee=async({params}:Request, res:Response)=>{
 }
 
 const getEmployees= async(req:Request, res:Response)=>{
+    console.log(req)
     try{
         const response = await getEmpls();
         res.send(response);

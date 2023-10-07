@@ -14,13 +14,10 @@ const loginCtrl = async({body}: Request, res:Response) => {
     if (responseUser === "PASSWORD_INCORRECT" || responseUser === "NOT_FOUND_USER") {
         return res.status(403).send({ message: responseUser });
     }
-    // Assigning refresh token in http-only cookie 
-    res.cookie('jwt', responseUser.refreshToken, { httpOnly: true, 
-        sameSite: 'none', secure: true, 
-        maxAge: 24 * 60 * 60 * 1000 });
     res.send({
         accessToken: responseUser.token,
-        user: responseUser.user
+        user: responseUser.user,
+        refreshToken: responseUser.refreshToken
     });
 };
 
@@ -29,6 +26,7 @@ const refreshCtrl = async (req: Request, res:Response) => {
     if (req.cookies?.jwt) {
     const jwt = req.cookies
     const responseUser = await refreshAccessToken(jwt)
+    console.log(res)
     if (responseUser == "INVALID_REFRESH_TOKEN" || responseUser === "NOT_FOUND_USER") {
         return res.status(403).send({ message: responseUser });
     }
@@ -36,6 +34,7 @@ const refreshCtrl = async (req: Request, res:Response) => {
         accessToken: responseUser
     })
     } else {
+        console.log("Que putas")
         return res.status(406).json({ message: 'Unauthorized' });
     }   
 }

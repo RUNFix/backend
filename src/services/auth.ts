@@ -33,7 +33,7 @@ const loginUser = async ({cc, password}: Auth) => {
     const token = await generateToken({cc,role});
     const refreshToken = await generateRefreshToken({cc,role});
     const data ={token,refreshToken,user:checkIs};
-
+    console.log(data)
     return data
 
 };
