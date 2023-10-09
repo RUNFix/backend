@@ -7,11 +7,12 @@ import {
   deleteEmployee,
 } from '../controllers/employee';
 import { logMiddleware } from '../middleware/log';
-import { authMiddleware } from '../middleware/auth';
+import { authMiddleware, refreshAuthMiddleware } from '../middleware/auth';
 
 const router = Router();
 
 router.get('/', authMiddleware, getEmployees);
+router.get('/refresh-token', refreshAuthMiddleware, getEmployees);
 router.get('/:id', authMiddleware, getEmployee);
 router.post('/', postEmployee);
 router.put('/:id', updateEmployee);

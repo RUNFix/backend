@@ -32,6 +32,7 @@ const refreshCtrl = async (req: Request, res: Response) => {
       return res.status(403).send({ message: responseUser });
     }
 
+    console.log('token que se envia', responseUser);
     res.send({
       accessToken: responseUser,
     });
