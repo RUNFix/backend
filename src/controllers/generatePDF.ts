@@ -1,5 +1,5 @@
 import { Request, Response, response } from "express"
-import generatePdf from "../utils/generatePdf";
+import generatePdf from "../utils/generatePDF";
 import { handleHttp } from "../utils/error.handle"
 
 const getPDF = async (req: Request, res: Response) => {
