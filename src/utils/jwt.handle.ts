@@ -11,7 +11,7 @@ const generateToken = async (data: { cc: number; role: string }) => {
 
 const generateRefreshToken = async (data: { cc: number; role: string }) => {
   const jwt = sign({ data }, REFRESH_TOKEN_SECRET, {
-    expiresIn: '1h',
+    expiresIn: '48h',
   });
   return jwt;
 };
