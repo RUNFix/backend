@@ -25,7 +25,7 @@ const getCarBills = async (plate:string) => {
 }
 
 const updateBill = async (id:string, data:Bill) => {
-    const responseUpdate = await BillModel.findOneAndUpdate({_id:id},data,{new:true});
+    const responseUpdate = await BillModel.findOneAndUpdate({_id:id},{$set:data},{new:true});
     return responseUpdate;
 }
 

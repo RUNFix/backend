@@ -49,6 +49,10 @@ const billSchema = new Schema<Bill>(
             type: Number,
             required: true,
         },
+        pdfLink: {
+            type: String,
+            default: '',
+        },
     },
     {
         timestamps: true,
