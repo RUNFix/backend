@@ -2,17 +2,6 @@ import { Schema, Types, model, Model } from "mongoose";
 
 import { Vehicle } from "../interfaces/vehicle";
 
-const PartSchema = new Schema({
-  name: {
-    type: String,
-    required: true,
-  },
-  description: {
-    type: String,
-    required: true,
-  },
-});
-
 const ItemSchema = new Schema<Vehicle>(
   {
     name: {
@@ -50,14 +39,10 @@ const ItemSchema = new Schema<Vehicle>(
     priceToPay: {
       type: Number,
       required: true,
+      default: 0,
     },
     employee: {
       type: String,
-      required: true,
-    },
-
-    parts: {
-      type: [PartSchema],
       required: true,
     },
     date: {

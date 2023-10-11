@@ -47,7 +47,12 @@ const updateBillController = async ({params, body}:Request, res: Response)=> {
 
 const postBill = async ({body}:Request, res: Response)=> {
     try{
+    
         const responseBill = await insertBill(body);
+
+        //logic for updating the vehicle table TODO
+        
+        
         res.send(body)
     }catch (e){
         handleHttp(res,'ERROR_POST_BILL',e)

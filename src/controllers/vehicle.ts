@@ -11,8 +11,8 @@ import fileUpload, { UploadedFile } from "express-fileupload";
 
 const getVehicle = async ({ params }: Request, res: Response) => {
   try {
-    const { id } = params;
-    const response = await getVehl(id);
+    const { plate } = params;
+    const response = await getVehl(plate);
     res.send(response);
   } catch (e) {
     handleHttp(res, "ERROR_GET_ITEM");
@@ -30,8 +30,8 @@ const getVehicles = async (req: Request, res: Response) => {
 
 const updateVehicle = async ({ params, body }: Request, res: Response) => {
   try {
-    const { id } = params;
-    const response = await updateVeh(id, body);
+    const { plate } = params;
+    const response = await updateVeh(plate, body);
     res.send(response);
   } catch (e) {
     handleHttp(res, "ERROR_UPDATE_ITEM");

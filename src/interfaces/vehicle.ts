@@ -17,7 +17,6 @@ export interface Vehicle {
   status: string;
   priceToPay: number;
   employee: string;
-  parts: Part[];
   date: Date;
   images: string[];
 }

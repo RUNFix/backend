@@ -19,6 +19,10 @@ const billItemSchema = new Schema({
         type: Number,
         enum: [0,10,20,30,40,50,60,70,80,90],
         required: true,
+    },
+    subtotal: {
+        type: Number,
+        required: true,
     }
 })
 
@@ -40,7 +44,11 @@ const billSchema = new Schema<Bill>(
         },
         items: {
             type: [billItemSchema],
-        }
+        },
+        total: {
+            type: Number,
+            required: true,
+        },
     },
     {
         timestamps: true,

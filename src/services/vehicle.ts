@@ -18,15 +18,15 @@ const getVechls = async () => {
   return responseEmployee;
 };
 
-const getVehl = async (id: string) => {
-  const responseEmployee = await vehicleModel.findOne({ _id: id });
+const getVehl = async (plate: string) => {
+  const responseEmployee = await vehicleModel.findOne({ plate: plate });
   return responseEmployee;
 };
 
-const updateVeh = async (id: string, data: Vehicle) => {
+const updateVeh = async (plate: string, data: Vehicle) => {
   const responseEmployee = await vehicleModel.findOneAndUpdate(
-    { id: id },
-    data,
+    {plate: plate },
+    {$set:data},
     { new: true }
   );
   return responseEmployee;

@@ -3,6 +3,7 @@ export interface Bill{
     plate: string;
     cc:number;
     items: BillItem[];
+    total:number;
 }
 
 interface BillItem {
@@ -10,4 +11,5 @@ interface BillItem {
     itemDescription: string;
     price: number;
     discount: number;
+    subtotal:number;
 }

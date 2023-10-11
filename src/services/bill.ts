@@ -8,6 +8,7 @@ const insertBill = async (item:Bill)=>{
     return responseInsert;
 }
 
+//returns every bill in the system
 const getBills = async ()=>{
     const responseGet = await BillModel.find({});
     return responseGet;

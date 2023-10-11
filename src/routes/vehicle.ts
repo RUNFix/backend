@@ -12,13 +12,13 @@ import fileUpload from "express-fileupload";
 const router = Router();
 
 router.get("/", getVehicles);
-router.get("/:id", logMiddleware, getVehicle);
+router.get("/:plate", logMiddleware, getVehicle);
 router.post(
   "/",
   fileUpload({ useTempFiles: true, tempFileDir: "./uploads" }),
   postVehicle
 );
-router.put("/:id", updateVehicle);
+router.put("/:plate", updateVehicle);
 router.delete("/:id", deleteVehicle);
 
 export { router };
