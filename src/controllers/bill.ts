@@ -1,7 +1,7 @@
 import { Request, Response, response } from "express"
 import { handleHttp } from "../utils/error.handle"
 import { insertBill, getUserBills , getCarBills, getBills, updateBill, deleteBill} from "../services/bill"
-
+import { updatePriceToPay} from "../services/vehicle"
 //If param is a cc, then search by user, if it is a plate, search by car
 const getBillsByParam = async ({params}:Request, res: Response) => {
     try{
@@ -51,9 +51,14 @@ const postBill = async ({body}:Request, res: Response)=> {
         const responseBill = await insertBill(body);
 
         //logic for updating the vehicle table TODO
-        
-        
-        res.send(body)
+        const {plate} = body;
+        const {total} = body;
+        const updatedPrice = updatePriceToPay(plate,total,1)
+        if(updatedPrice!==null){
+            res.send(body)
+        }else{
+            throw new Error();
+        }
     }catch (e){
         handleHttp(res,'ERROR_POST_BILL',e)
     }

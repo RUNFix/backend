@@ -26,10 +26,29 @@ const getVehl = async (plate: string) => {
 const updateVeh = async (plate: string, data: Vehicle) => {
   const responseEmployee = await vehicleModel.findOneAndUpdate(
     {plate: plate },
-    {$set:data},
+    data,
     { new: true }
   );
   return responseEmployee;
+};
+
+/**
+ * 
+ * @param plate Plate of the vehicle to update
+ * @param total Total ammount to update
+ * @param mode If 1 (add) or -1(rest)
+ * @returns if succesful the updated "vehicle", if failed "null"
+ */
+const updatePriceToPay = async (plate:string, total:number, mode: -1 | 1) => {
+  const responseVehicle:Vehicle | null = await getVehl(plate);
+  
+  if( responseVehicle!== null){
+    responseVehicle.priceToPay += (total*mode);
+    const resUpdateVeh = await updateVeh(plate,responseVehicle);
+    return responseVehicle;
+  }else{//failed to update vehicle
+    return null;
+  }
 };
 
 const deleteVeh = async (id: string): Promise<Vehicle | null> => {
@@ -56,4 +75,4 @@ const deleteVeh = async (id: string): Promise<Vehicle | null> => {
 function extractPublicIdFromUrl(url: string): string {
   return url.split("/").slice(-1)[0].split(".")[0];
 }
-export { insertveh, getVechls, getVehl, updateVeh, deleteVeh };
+export { insertveh, getVechls, getVehl, updateVeh, deleteVeh, updatePriceToPay};
