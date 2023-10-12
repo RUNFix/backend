@@ -55,7 +55,7 @@ const refreshAccessToken = async (refreshToken: string) => {
 
     if (!user) throw new Error('NOT_FOUND_USER');
 
-    const newAccessToken = await generateRefreshToken(decoded.data);
+    const newAccessToken = await generateToken(decoded.data);
     return { token: newAccessToken };
   } catch (error: any) {
     if (error.message === 'NOT_FOUND_USER') return 'NOT_FOUND_USER';

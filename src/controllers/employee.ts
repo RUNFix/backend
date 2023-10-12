@@ -19,9 +19,9 @@ const getEmployee = async ({ params }: Request, res: Response) => {
 };
 
 const getEmployees = async (req: Request, res: Response) => {
-  console.log(req);
   try {
     const response = await getEmpls();
+    console.log('ESTOY BUSCANDO EMPLEADOS')
     res.send(response);
   } catch (e) {
     handleHttp(res, 'ERROR_GET_ITEMS');
