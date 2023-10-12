@@ -22,9 +22,9 @@ const verifyToken = async (jwt: string) => {
   try {
     const isOk = verify(jwt, ACCESS_TOKEN_SECRET);
     return isOk;
-  } catch (err:any) {
-    return err.name
-  }
+  } catch (error) {
+    throw error
+  } 
   
 };
 
