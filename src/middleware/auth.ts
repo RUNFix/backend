@@ -11,7 +11,7 @@ export interface UserPayload {
   exp: number
 }
 export interface CustomRequest extends Request {
-  token: string | JwtPayload;
+  token: UserPayload | string | JwtPayload;
 }
 
 const authMiddleware = async (req: Request, res: Response, next: NextFunction) => {
@@ -41,17 +41,29 @@ const authMiddleware = async (req: Request, res: Response, next: NextFunction) =
 }
 };
 
+function isUserPayload(token: any): token is UserPayload {
+  return typeof token !== 'string' && 'data' in token;
+}
+
 const adminAuthorize = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const { user }: any = (req as CustomRequest).token;
-    console.log("Token del rol", user.data.role)
-    if(user.data.role != "Administrador") {
-      throw new Error("Do not posses credential for this action");
+  
+  
+  if (isUserPayload((req as CustomRequest).token)) {
+    
+    try {
+      const user : any= (req as CustomRequest).token;
+      console.log("Token", (req as CustomRequest).token)
+      console.log("User", user)
+      console.log("Token del rol", user.data.role)
+      if(user.data.role != "Administrador") {
+        return res.status(401).json({ message: 'No tiene credenciales para ingresar' });
+      }
+      next();
+    } catch (error) {
+      return res.status(401).json({ message: 'Unauthorized' });
     }
-    next();
-  } catch (error) {
-    return res.status(401).json({ message: 'Unauthorized' });
   }
+  
 };
 
 
