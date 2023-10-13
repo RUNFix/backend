@@ -24,7 +24,7 @@ const getCarBills = async (plate:string) => {
     return responseGet;
 }
 
-const updateBill = async (id:string, data:Bill) => {
+const updateBill = async (id:string, data: Partial<Bill>) => {
     const responseUpdate = await BillModel.findOneAndUpdate({_id:id},{$set:data},{new:true});
     return responseUpdate;
 }
