@@ -1,9 +1,16 @@
 import { Vehicle } from "../interfaces/vehicle";
 import vehicleModel from "../models/vehicle";
+import employeeModel from "../models/employee";
 import { uploadImage, deleteImage } from "../config/cloudinary";
 import fs from "fs-extra";
 
 const insertveh = async (vehicle: Vehicle, tempFilePaths?: string[]) => {
+  const checkIs = await vehicleModel.findOne({plate: vehicle.plate});
+  if(checkIs) return "ALREADY_VEHICLE";
+
+  const checkIsEmp = await employeeModel.findOne({fullName: vehicle.employee});
+  if(!checkIsEmp) return "EMPLOYEE_NOT_FOUND";
+
   if (tempFilePaths) {
     const results = await Promise.all(tempFilePaths.map(uploadImage));
     vehicle.images = results.map((result) => result.secure_url);

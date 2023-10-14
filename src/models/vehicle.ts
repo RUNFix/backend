@@ -11,6 +11,7 @@ const ItemSchema = new Schema<Vehicle>(
     plate:{
       type:String,
       required: true,
+      unique: true,
     },
     cc: {
       type: Number,

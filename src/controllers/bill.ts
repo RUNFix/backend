@@ -31,7 +31,7 @@ const getBillsController = async (req:Request, res: Response)=> {
         const responseGet = await getBills();
         res.send(responseGet);
     }catch (e){
-        handleHttp(response,'ERROR_UPDATE_BILL')
+        handleHttp(response,'ERROR_GET_BILL')
     }
 }
 
@@ -50,13 +50,16 @@ const postBill = async ({body}:Request, res: Response)=> {
     
         const responseBill = await insertBill(body);
 
-        //logic for updating the vehicle table TODO
+        //logic for updating the vehicle table
         const {plate} = body;
         const {total} = body;
-        const updatedPrice = updatePriceToPay(plate,total,1)
-        if(updatedPrice!==null){
+        const updatedPrice = await updatePriceToPay(plate,total,1)
+        if((responseBill!==null)&&(updatedPrice!==null)){
             res.send(body)
         }else{
+            //this undo whatever half of the operation was done
+            if(responseBill) deleteBill(responseBill.id);
+            if(updatedPrice) updatePriceToPay(plate,total,-1);
             throw new Error();
         }
     }catch (e){
