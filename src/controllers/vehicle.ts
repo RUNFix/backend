@@ -15,7 +15,7 @@ const getVehicle = async ({ params }: Request, res: Response) => {
     const response = await getVehl(plate);
     res.send(response);
   } catch (e) {
-    handleHttp(res, "ERROR_GET_ITEM");
+    handleHttp(res, "ERROR_GET_VEHICLE");
   }
 };
 
@@ -24,7 +24,7 @@ const getVehicles = async (req: Request, res: Response) => {
     const response = await getVechls();
     res.send(response);
   } catch (e) {
-    handleHttp(res, "ERROR_GET_ITEMS");
+    handleHttp(res, "ERROR_GET_VEHICLES");
   }
 };
 
@@ -34,7 +34,7 @@ const updateVehicle = async ({ params, body }: Request, res: Response) => {
     const response = await updateVeh(plate, body);
     res.send(response);
   } catch (e) {
-    handleHttp(res, "ERROR_UPDATE_ITEM");
+    handleHttp(res, "ERROR_UPDATE_VEHICLE");
   }
 };
 
@@ -51,7 +51,7 @@ const postVehicle = async (req: Request, res: Response) => {
       try {
         req.body.parts = JSON.parse(req.body.parts);
       } catch (e) {
-        return res.status(400).send("Invalid parts format");
+        return res.status(400).send("INVALID_PARTS_FORMAT");
       }
     }
 
@@ -59,10 +59,13 @@ const postVehicle = async (req: Request, res: Response) => {
     console.log(req.files);
 
     const response = await insertveh(req.body, tempFilePaths);
+    if((typeof response)==='string') {
+      return res.status(400).send({message: response});
+    }
     res.send(response);
   } catch (e) {
     console.error(e);
-    handleHttp(res, "ERROR_POST_ITEM");
+    handleHttp(res, "ERROR_POST_VEHICLE");
   }
 };
 

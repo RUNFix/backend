@@ -11,6 +11,8 @@ const insertveh = async (vehicle: Vehicle, tempFilePaths?: string[]) => {
   const checkIsEmp = await employeeModel.findOne({fullName: vehicle.employee});
   if(!checkIsEmp) return "EMPLOYEE_NOT_FOUND";
 
+  //TODO: checkIsClient: Check if client does exist
+
   if (tempFilePaths) {
     const results = await Promise.all(tempFilePaths.map(uploadImage));
     vehicle.images = results.map((result) => result.secure_url);
