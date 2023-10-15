@@ -46,10 +46,13 @@ const updateBillController = async ({params, body}:Request, res: Response)=> {
 }
 
 const postBill = async ({body}:Request, res: Response)=> {
+    // TODO: check if client AND vehicle exist
     try{
     
         const responseBill = await insertBill(body);
-
+        if (responseBill === "VEHICLE_DOES_NOT_EXIST") {
+            return res.status(400).send({ message: responseBill});
+        }
         //logic for updating the vehicle table
         const {plate} = body;
         const {total} = body;
@@ -58,7 +61,7 @@ const postBill = async ({body}:Request, res: Response)=> {
             res.send(body)
         }else{
             //this undo whatever half of the operation was done
-            if(responseBill) deleteBill(responseBill.id);
+            if((typeof responseBill) !== 'string') deleteBill(responseBill.id);
             if(updatedPrice) updatePriceToPay(plate,total,-1);
             throw new Error();
         }

@@ -4,6 +4,9 @@ import { registerNewUser, loginUser, updatePassword} from "../services/auth"
 
 const registerCtrl = async({body}: Request, res: Response) => {
     const responseUser = await registerNewUser(body)
+    if (responseUser === "ALREADY_USER" || responseUser === "ALREADY_EMAIL" || responseUser === "ALREADY_PHONE") {
+        return res.status(400).send({ message: responseUser });
+    }
     res.send(responseUser)
 };  
 
@@ -12,7 +15,7 @@ const loginCtrl = async({ body }: Request, res: Response) => {
     const responseUser = await loginUser({ cc, password });
 
     if (responseUser === "PASSWORD_INCORRECT" || responseUser === "NOT_FOUND_USER") {
-        return res.status(403).send({ message: responseUser });
+        return res.status(400).send({ message: responseUser });
     }
 
     res.send({

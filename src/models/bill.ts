@@ -17,7 +17,8 @@ const billItemSchema = new Schema({
     },
     discount: {
         type: Number,
-        enum: [0,10,20,30,40,50,60,70,80,90],
+        min: 0,
+        max: 100,
         required: true,
     },
     subtotal: {
