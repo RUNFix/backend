@@ -1,14 +1,20 @@
-import { Request,Response,Router } from "express";
-import { getEmployee, getEmployees, updateEmployee, deleteEmployee} from "../controllers/employee";
-import { logMiddleware } from "../middleware/log";
+import { Request, Response, Router, RequestHandler } from 'express';
+import {
+  getEmployee,
+  getEmployees,
+  updateEmployee,
+  deleteEmployee,
+} from '../controllers/employee';
+import { logMiddleware } from '../middleware/log';
+import { adminAuthorize, authMiddleware, refreshAuthMiddleware } from '../middleware/auth';
 
-const router = Router()
+const router = Router();
 
-
-router.get("/", getEmployees);
-router.get("/:id",logMiddleware,getEmployee);
-//router.post("/",postEmployee );
-router.put("/:id",updateEmployee);
-router.delete("/:id",deleteEmployee);
+router.get('/', authMiddleware,adminAuthorize, getEmployees);
+// router.get('/refresh-token', refreshAuthMiddleware, getEmployees);
+router.get('/:id', authMiddleware, getEmployee);
+//router.post('/', authMiddleware,postEmployee);
+router.put('/:id', updateEmployee);
+router.delete('/:id', deleteEmployee);
 
 export { router };
